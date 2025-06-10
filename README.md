@@ -33,7 +33,7 @@ If you only wish to run and use the webservice then the simplest way is probably
 to build and run the Docker image:
 1. Ensure you have Docker installed: `docker --version`
 2. Run `docker build -t webg-backend .` from the root of the repository.
-3. Run `docker run -d --name mycontainer -p 80:80 webg-backend` to start the container.
+3. Run `docker run -d --name mycontainer --network host webg-backend` to start the container.
 4. Visit `http://127.0.0.1/docs` in the browser to view the interactive docs.
 
 #### Optional 2 - Local:
@@ -41,7 +41,7 @@ If you're going to be making changes to the code then you'll probably want to ru
 1. Ensure you have firefox installed `sudo apt install firefox` on Linux
 2. Ensure you have xvfb installed if you wish to run the webdriver in a virtual frame buffer `sudo apt-get install xvfb`
 3. From the root of the repository run `uvicorn webservice.main:app --reload`
-4. Visit `http://localhost:8000/docs` in the browser to view the interactive docs.
+4. Visit `http://localhost:8080/docs` in the browser to view the interactive docs.
 
 
 ## API Specification

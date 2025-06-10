@@ -4,6 +4,8 @@ from typing import Optional
 
 import geckodriver_autoinstaller
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.common.by import By
 from xvfbwrapper import Xvfb
 
 from utils.io_funcs import read_text_file
@@ -24,7 +26,11 @@ class WebDriver:
         # Open Browser
         if self.use_virtual_display:
             self.setup_virtual_display(viewport_width=viewport_width, viewport_height=viewport_height)
-        self.driver = webdriver.Firefox()
+
+        options = Options()
+        options.add_argument('--headless')
+
+        self.driver = webdriver.Firefox(options=options)
         self.driver.set_window_size(viewport_width, viewport_height)
         self.viewport_width = self.driver.execute_script('return window.innerWidth;')
         self.viewport_height = self.driver.execute_script('return window.innerHeight;')
@@ -44,7 +50,8 @@ class WebDriver:
         start_time = time()
         previous_num_elements = 0
         while True:
-            num_elements = len(self.driver.find_elements_by_css_selector('*'))
+            elements = self.driver.find_elements(By.CSS_SELECTOR, '*')
+            num_elements = len(elements)
             if num_elements > previous_num_elements:
                 print(f'{num_elements - previous_num_elements} new nodes were added...')
                 previous_num_elements = num_elements
